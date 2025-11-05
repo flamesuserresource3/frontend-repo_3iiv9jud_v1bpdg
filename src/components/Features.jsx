@@ -1,4 +1,5 @@
 import { Rocket, Shield, Zap, Layers } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const features = [
   {
@@ -27,36 +28,61 @@ const features = [
   },
 ]
 
+const container = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { staggerChildren: 0.08, duration: 0.5, ease: 'easeOut' },
+  },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+}
+
 export default function Features() {
   return (
     <section id="features" className="relative py-20 sm:py-28">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_40%_at_50%_0%,rgba(250,204,21,0.06),transparent)]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Everything you need to make a splash
           </h2>
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-gray-400">
             From first impression to final conversion, FluxGrid gives you a polished foundation.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-12 grid gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {features.map(({ title, description, icon: Icon }) => (
-            <div
+            <motion.div
+              variants={item}
               key={title}
-              className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-white/10 dark:bg-white/5"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-sm transition will-change-transform hover:-translate-y-1 hover:shadow-md"
             >
               <div className="relative z-10">
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-rose-500 to-rose-400 text-white shadow">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-yellow-400 to-amber-300 text-black shadow">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-                <p className="mt-2 text-sm text-gray-600">{description}</p>
+                <h3 className="text-lg font-semibold text-white">{title}</h3>
+                <p className="mt-2 text-sm text-gray-300">{description}</p>
               </div>
-              <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{background: 'radial-gradient(60% 60% at 50% 0%, rgba(244, 63, 94, 0.12), transparent)'}} />
-            </div>
+              <div
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{ background: 'radial-gradient(60% 60% at 50% 0%, rgba(250, 204, 21, 0.12), transparent)' }}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
